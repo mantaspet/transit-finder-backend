@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -9,6 +10,7 @@ var postsRouter = require('./routes/posts');
 
 var app = express();
 
+// TODO: connect DB and finish FB auth
 // var mongoose = require('mongoose');
 // var mongoDB = 'mongodb://admin:SGQqieXwKNF9j9c@ds215563.mlab.com:15563/transit_finder';
 // mongoose.connect(mongoDB);
