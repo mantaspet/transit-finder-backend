@@ -1,17 +1,17 @@
 var express = require('express');
 var router = express.Router();
 
-var post_controller = require('../controllers/postController');
-var comment_controller = require('../controllers/commentController');
+var postController = require('../controllers/post-controller');
+var commentController = require('../controllers/comment-controller');
 
-router.get('/', post_controller.post_list);
-router.get('/:id', post_controller.post_detail);
-router.post('/', post_controller.create_post);
-router.put('/:id', post_controller.update_post);
-router.delete('/:id', post_controller.delete_post);
+router.get('/', postController.postList);
+router.get('/:id', postController.postDetail);
+router.post('/', postController.createPost);
+router.put('/:id', postController.updatePost);
+router.delete('/:id', postController.deletePost);
 
-router.post('/:postId/comments', comment_controller.create_comment);
-router.put('/:postId/comments/:commentId', comment_controller.update_comment);
-router.delete('/:postId/comments/:commentId', comment_controller.delete_comment);
+router.post('/:postId/comments', commentController.createComment);
+router.put('/:postId/comments/:commentId', commentController.updateComment);
+router.delete('/:postId/comments/:commentId', commentController.deleteComment);
 
 module.exports = router;

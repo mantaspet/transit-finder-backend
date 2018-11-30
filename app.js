@@ -2,24 +2,17 @@ require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 var logger = require('morgan');
 var cors = require('cors');
-var bodyParser = require('body-parser');
 
-var authRouter = require('./routes/auth');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var postsRouter = require('./routes/posts');
-
-var passportConfig = require('./passport-config');
-//setup configuration for facebook login
-passportConfig();
-
-require('./mongoose-config');
+// Setup configs
+require('./config/mongoose');
+require('./config/passport');
 
 var app = express();
 
-// enable cors
+// Setup cors (lets everything through for now)
 var corsOption = {
   origin: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -28,21 +21,19 @@ var corsOption = {
 };
 app.use(cors(corsOption));
 
-//rest API requirements
+// Setup middleware
+app.use(logger('dev'));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/auth', authRouter);
-app.use('/users', usersRouter);
-app.use('/posts', postsRouter);
+// Setup routes
+app.use('/', require('./routes/index'));
+app.use('/auth', require('./routes/auth'));
+app.use('/users', require('./routes/users'));
+app.use('/posts', require('./routes/posts'));
 
 module.exports = app;
