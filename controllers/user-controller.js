@@ -8,6 +8,7 @@ module.exports = {
       } else {
         var user = user.toObject();
         delete user['__v'];
+        user.
         res.json(user);
       }
     });

@@ -19,13 +19,6 @@ var UserSchema = new Schema({
   } 
 });
 
-// Virtual for user's URL
-UserSchema
-.virtual('url')
-.get(function () {
-  return '/catalog/user/' + this._id;
-});
-
 UserSchema.statics.findOrCreate = function(accessToken, refreshToken, profile, cb) {
   var that = this;
   return this.findOne({
@@ -54,5 +47,12 @@ UserSchema.statics.findOrCreate = function(accessToken, refreshToken, profile, c
   });
 };
 
-//Export model
+// Virtual for posts's URL
+UserSchema
+.virtual('url')
+.get(function () {
+  return '/user/' + this._id;
+})
+
+// Export model
 module.exports = mongoose.model('User', UserSchema);
