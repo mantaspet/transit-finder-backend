@@ -47,12 +47,5 @@ UserSchema.statics.findOrCreate = function(accessToken, refreshToken, profile, c
   });
 };
 
-// Virtual for posts's URL
-UserSchema
-.virtual('url')
-.get(function () {
-  return '/user/' + this._id;
-})
-
 // Export model
 module.exports = mongoose.model('User', UserSchema);

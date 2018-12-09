@@ -26,12 +26,5 @@ var CommentSchema = new Schema(
   }
 );
 
-// Virtual for comment's URL
-CommentSchema
-.virtual('url')
-.get(function () {
-  return '/comment/' + this._id;
-});
-
 //Export model
 module.exports = mongoose.model('Comment', CommentSchema);

@@ -7,12 +7,10 @@ var PostSchema = new Schema(
     from: {
       type: String,
       required: true,
-      maxlength: 1000,
     },
     to: {
       type: String,
       required: true,
-      maxlength: 1000,
     },
     user: {
       type: Schema.Types.ObjectId, 
@@ -31,19 +29,8 @@ var PostSchema = new Schema(
       type: Number,
       min: 0,
     },
-    comments: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Comment',
-    }],
   }
 );
-
-// Virtual for posts's URL
-PostSchema
-.virtual('url')
-.get(function () {
-  return '/post/' + this._id;
-})
 
 //Export model
 module.exports = mongoose.model('Post', PostSchema);
