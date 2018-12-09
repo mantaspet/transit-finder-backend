@@ -24,9 +24,7 @@ module.exports = {
       },
     }, function(err, results) {
       if (err) { return next(err); }
-      var post = results.post;
-      post.comments = results.comments;
-      res.json(post);
+      res.json(results);
     });
   },
 
@@ -129,9 +127,9 @@ module.exports = {
         if (err) { return next(err); }
         if (results.comments.length > 0) {
           for (var i = 0; i < results.comments.length; i++) {
-            Comment.findByIdAndRemove(results.comments[i].post, function deleteComment(err) {
+            Comment.findOneAndRemove({ 'post': req.params.id }, function (err) {
               if (err) { return next(err); }
-            })
+            });
           }
         }
         Post.findByIdAndRemove(req.params.id, function deletePost(err) {
