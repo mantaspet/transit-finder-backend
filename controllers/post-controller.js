@@ -95,8 +95,7 @@ module.exports = {
         user: req.body.user,
         description: req.body.description,
         date: req.body.date,
-        price: req.body.price,
-        comments: req.body.comments,
+        price: req.body.price
       };
       delete post._id;
       if (!errors.isEmpty()) {
@@ -109,7 +108,6 @@ module.exports = {
             Post
               .findById(req.params.id)
               .populate('user')
-              .populate('comments')
               .exec(function (err, updatedPost) {
                 if (err) { return next(err); }
                 res.json(updatedPost);
@@ -124,14 +122,14 @@ module.exports = {
       post: function(callback) {
         Post.findById(req.params.id).exec(callback)
       },
-      postComments: function(callback) {
+      comments: function(callback) {
         Comment.find({ 'post': req.params.id }).exec(callback)
       },
     }, function(err, results) {
         if (err) { return next(err); }
-        if (results.postComments.length > 0) {
-          for (var i = 0; i < results.postComments.length; i++) {
-            Comment.findByIdAndRemove(results.postComments[i].post, function deleteComment(err) {
+        if (results.comments.length > 0) {
+          for (var i = 0; i < results.comments.length; i++) {
+            Comment.findByIdAndRemove(results.comments[i].post, function deleteComment(err) {
               if (err) { return next(err); }
             })
           }
