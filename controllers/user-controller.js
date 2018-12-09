@@ -8,24 +8,31 @@ module.exports = {
       } else {
         var user = user.toObject();
         delete user['__v'];
+        //user.
         res.json(user);
       }
     });
   },
 
   getUserList: function (req, res) {
-    res.json('NOT IMPLEMENTED: User list');
+    User.find({})
+      .exec(function (err, users) {
+        if (err) { return next(err); }
+        res.json(users);
+      });
   },
 
-  createUser: function (req, res) {
-    res.json('NOT IMPLEMENTED: User create');
-  },
-
-  updateUser: function (req, res) {
-    res.json('NOT IMPLEMENTED: User ' + req.params.id + ' update');
-  },
-
-  deleteUser: function (req, res) {
-    res.json('NOT IMPLEMENTED: User ' + req.params.id + ' delete');
+  suspendUser: function (req, res) {
+    User
+      .findByIdAndUpdate(req.params.id, {
+        isActive: false
+      }, {}, function (err, user) {
+        if (err) { return next(err); }
+        User
+          .findById(req.params.id).exec(function(err, user) {
+            if (err) { return next(err); }
+            res.json(user);
+          });
+      });
   }
 };

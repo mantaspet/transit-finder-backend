@@ -24,7 +24,9 @@ module.exports = {
 
 	loginUser: function(req, res) {
 		if (!req.user) {
-			return res.send(401, 'User Not Authenticated');
+			return res.status(401).json('Prisijungti nepavyko. Prašome pamėginti vėliau');
+		} else if (!req.user.isActive) {
+			return res.status(401).json('Paskyra suspenduota');
 		}
 		req.auth = {
 			id: req.user.id

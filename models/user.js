@@ -3,11 +3,17 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-  firstName: {type: String},
-  lastName: {type: String},
+  firstName: {
+    type: String
+  },
+  lastName: {
+    type: String
+  },
   email: {
-    type: String, required: true,
-    trim: true, unique: true,
+    type: String,
+    required: true,
+    trim: true,
+    unique: true,
     match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
   },
   facebookProvider: {
@@ -16,14 +22,10 @@ var UserSchema = new Schema({
       token: String
     },
     select: false
-  } 
-});
-
-// Virtual for user's URL
-UserSchema
-.virtual('url')
-.get(function () {
-  return '/catalog/user/' + this._id;
+  },
+  isActive: {
+    type: Boolean,
+  }
 });
 
 UserSchema.statics.findOrCreate = function(accessToken, refreshToken, profile, cb) {
@@ -36,6 +38,7 @@ UserSchema.statics.findOrCreate = function(accessToken, refreshToken, profile, c
       var newUser = new that({
         fullName: profile.displayName,
         email: profile.emails[0].value,
+        isActive: true,
         facebookProvider: {
           id: profile.id,
           token: accessToken
@@ -54,5 +57,5 @@ UserSchema.statics.findOrCreate = function(accessToken, refreshToken, profile, c
   });
 };
 
-//Export model
+// Export model
 module.exports = mongoose.model('User', UserSchema);
