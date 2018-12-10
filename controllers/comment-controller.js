@@ -63,6 +63,10 @@ module.exports = {
         text: req.body.text,
         date: req.body.date,
       };
+      if (req.auth.id != comment.user) {
+        res.status(403).json('Unauthorized');
+        return;
+      }
       if (!errors.isEmpty()) {
         res.status(422).json({
           errors: errors.array(),
@@ -80,8 +84,12 @@ module.exports = {
   ],
 
   deleteComment: function (req, res, next) {
-    Comment.findByIdAndDelete(req.params.id, function (err) {
+    Comment.findByIdAndDelete(req.params.id, function (err, comment) {
       if (err) { return next(err); }
+      if (req.auth.id != comment.user) {
+        res.status(403).json('Unauthorized');
+        return;
+      }
       res.json('comment deleted');
     });
   },

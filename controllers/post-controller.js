@@ -96,6 +96,10 @@ module.exports = {
         price: req.body.price
       };
       delete post._id;
+      if (req.auth.id != post.user) {
+        res.status(403).json('Unauthorized');
+        return;
+      }
       if (!errors.isEmpty()) {
         res.status(422).json({ errors: errors.array() });
       }
@@ -125,6 +129,10 @@ module.exports = {
       },
     }, function(err, results) {
         if (err) { return next(err); }
+        if (req.auth.id != results.post.user) {
+          res.status(403).json('Unauthorized');
+          return;
+        }
         if (results.comments.length > 0) {
           for (var i = 0; i < results.comments.length; i++) {
             Comment.findOneAndRemove({ 'post': req.params.id }, function (err) {
