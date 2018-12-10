@@ -34,7 +34,7 @@ module.exports = {
     body('user', 'Turi būti priskirtas egzistuojantis naudotojas').isLength({ min: 1 }),
     body('description', 'Aprašymas negali būti ilgesnis už 1000 simbolių').isLength({ max: 1001 }).trim(),
     body('date', 'Turi būti nurodyta taiskylinga data').isISO8601(),
-    body('price', 'Kaina turi būti skaičius ir negali būti mažesnė už 0').isInt({ min: 0 }),
+    body('price', 'Kaina turi būti skaičius ir negali būti mažesnė už 0').optional().isInt({ min: 0 }),
 
     sanitizeBody('from').trim().escape(),
     sanitizeBody('to').trim().escape(),
@@ -77,7 +77,7 @@ module.exports = {
     body('user', 'Turi būti priskirtas egzistuojantis naudotojas').isLength({ min: 1 }),
     body('description', 'Aprašymas negali būti ilgesnis už 1000 simbolių').isLength({ max: 1001 }).trim(),
     body('date', 'Turi būti nurodyta taiskylinga data').isISO8601(),
-    body('price', 'Kaina turi būti skaičius ir negali būti mažesnė už 0').isInt({ min: 0 }),
+    body('price', 'Kaina turi būti skaičius ir negali būti mažesnė už 0').optional().isInt({ min: 0 }),
 
     sanitizeBody('from').trim().escape(),
     sanitizeBody('to').trim().escape(),
